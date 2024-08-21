@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #1c1c1c;
+      color: #f0f0f0;
+    }
+
+    .music-player {
+      background-color: #2c2c2c;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      margin: 50px auto;
+    }
+
+    .cover-art {
+      width: 200px;
+      height: 200px;
+      margin-bottom: 20px;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 0 10px;
+      font-size: 24px;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="music-player">
+    <img class="cover-art" src="cover-art.jpg" alt="Cover Art">
+    <h2 id="song-title">Song Title</h2>
+    <h3 id="artist">Artist</h3>
+    <audio id="audio-player" controls>
+      <source src="song.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <div class="controls">
+      <button id="prev-btn">Previous</button>
+      <button id="play-btn">Play</button>
+      <button id="next-btn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const songTitle = document.getElementById('song-title');
+    const artist = document.getElementById('artist');
+    const audioPlayer = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    // Array of song information
+    const songs = [
+      {
+        title: 'Song 1',
+        artist: 'Artist 1',
+        src: 'song1.mp3'
+      },
+      {
+        title: 'Song 2',
+        artist: 'Artist 2',
+        src: 'song2.mp3'
+      },
+      {
+        title: 'Song 3',
+        artist: 'Artist 3',
+        src: 'song3.mp3'
+      }
+    ];
+
+    let currentSongIndex = 0;
+
+    function loadSong(index) {
+      const song = songs[index];
+      songTitle.textContent = song.title;
+      artist.textContent = song.artist;
+      audioPlayer.src = song.src;
+    }
+
+    function playSong() {
+      audioPlayer.play();
+      playBtn.textContent = 'Pause';
+    }
+
+    function pauseSong() {
+      audioPlayer.pause();
+      playBtn.textContent = 'Play';
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audioPlayer.paused) {
+        playSong();
+      } else {
+        pauseSong();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+      loadSong(currentSongIndex);
+      playSong();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong(currentSongIndex);
+      playSong();
+    });
+
+    loadSong(currentSongIndex);
+  </script>
+</body>
+</html>
